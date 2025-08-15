@@ -6,37 +6,39 @@
 //
 
 import Foundation
+
 protocol ProductsServiceProtocol {
     func fetchproducts()async throws  -> [Products]
 }
 
-
-class ProductsService: ProductsServiceProtocol {
+class ProductsService: ProductsServiceProtocol{
+    private let cache = ProductsCache()
+    private var lastfecthedtime:Date?
+    private let refreshinterval:TimeInterval = 60 * 5
+    private var downloder = httdataDownloder()
+    init(downloder:httdataDownloder = httdataDownloder()){
+        self.downloder = downloder
+    }
     func fetchproducts()async throws  -> [Products]{
-        let urlstring = "https://fakestoreapi.com/products"
-        guard let url = URL(string: urlstring)else{
-            throw ApiError.invalidurl
+        if !needrefresh, let cachedData = try cache.getProducts(){
+            return cachedData
         }
-      
-        let (data,response) = try await URLSession.shared.data(from: url)
-        try responsehandler(response: response)
-        do {
-            try await Task.sleep(for: .seconds(2))
-            let products = try JSONDecoder().decode( [Products].self, from: data)
-            return products
-        }catch {
-            print(error)
-            return []
-        }
+        let products = try await downloder.fetchdata(as: Products.self, endpoint: .products)
+        savelastfetchedtime()
+        try  cache.saveProducts(products)
+        return products
+        
 
     }
-    
-    private func responsehandler(response:URLResponse)throws{
-        guard let response = response as? HTTPURLResponse else {
-            throw ApiError.invalidResponse
-        }
-        guard response.statusCode == 200 else {
-            throw ApiError.invalidResponse
-        }
+    private func savelastfetchedtime(){
+        UserDefaults.standard.set(Data(), forKey: "lastfetchedtime")
+    }
+    private  func getlastfetchedtime(){
+        self.lastfecthedtime = UserDefaults.standard.value(forKey:"lastfetchedtime" ) as? Date
+    }
+    private var needrefresh:Bool{
+        guard let lastfecthedtime else{return true}
+        return Date().timeIntervalSince(lastfecthedtime) >= refreshinterval
+        
     }
 }

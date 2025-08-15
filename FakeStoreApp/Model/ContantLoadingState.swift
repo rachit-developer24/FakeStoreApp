@@ -12,3 +12,5 @@ enum ContantLoadingState<T:Decodable>{
     case error(error : Error)
     case completed(Data : [T])
 }
+
+
