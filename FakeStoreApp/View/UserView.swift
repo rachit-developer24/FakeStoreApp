@@ -8,19 +8,24 @@
 import SwiftUI
 
 struct UserView: View {
-    let user = User.MockUser
+    @State var Viewmodel = UserViewModel()
     var body: some View {
         NavigationStack{
             VStack{
                 List{
-                    ForEach(user){user in
+                    ForEach(Viewmodel.user){user in
                         UserSubView(user: user)
                     }
                 }
                 .navigationTitle(Text("Users"))
             }
         }
+        .task {
+            await Viewmodel.fetchusers()
+        }
     }
+        
+
 }
 
 #Preview {
