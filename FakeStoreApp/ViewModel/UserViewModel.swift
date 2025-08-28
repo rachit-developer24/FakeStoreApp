@@ -9,7 +9,7 @@ import Foundation
 import Observation
 @Observable
 class UserViewModel {
-    var lodingState:ContantLoadingState<User> = .isloading
+    var lodingState:ContentLoadingState<User> = .isloading
     var user = [User]()
     let Service:UserServiceProtocol
     init(Service: UserServiceProtocol = UserService()) {

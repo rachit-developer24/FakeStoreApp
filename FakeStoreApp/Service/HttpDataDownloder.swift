@@ -6,28 +6,46 @@
 //
 
 import Foundation
-protocol HttpDataDownloderprotocol{
-    func fetchdata<T:Decodable>(as type: T.Type , endpoint:FakeStoreEndPoints ) async throws -> [T]
+protocol HttpDataDownloderProtocol{
+    func fetchdata<T:Codable>(as type: T.Type  ) async throws -> [T]
 }
-class httdataDownloder: HttpDataDownloderprotocol {
+class HTTPDataDownloder: HttpDataDownloderProtocol {
     private let baseurl = "https://fakestoreapi.com"
-    func fetchdata<T>(as type: T.Type, endpoint: FakeStoreEndPoints) async throws -> [T] where T : Decodable {
-        let url = try buildUrl(withendpoint: endpoint)
+   private let cache:fileCacheManager?
+    private let endpoint:FakeStoreEndPoints
+    private var lastfecthedtime:Date?
+    private let refreshinterval:TimeInterval = 60 * 10
+
+    init(endpoint:FakeStoreEndPoints,cache:fileCacheManager? = nil) {
+        self.cache = cache
+        self.endpoint = endpoint
+        getlastfetchedtime()
+    }
+    
+    func fetchdata<T:Codable>(as type: T.Type) async throws -> [T] where T : Decodable {
+        if !needrefresh, let cache{
+            print("Got Data from Cache")
+            return try cache.getData(as: type)
+        }
+        print( "Fetching Data from API")
+        let url = try buildUrl()
         let (data,response) = try await URLSession.shared.data(from: url)
         try validateResponse(response: response)
-        do {
-            let data = try JSONDecoder().decode([T].self, from: data)
-            return data
-        }catch{
-            throw error as? ApiError ?? .invaliddata
-        }
+        
+        let result = try JSONDecoder().decode([T].self, from: data)
+        if let cache{
+            savelastfetchedtime()
+            cache.saveData(as: result)
+            }
+        return result
+      
     }
    
-    private func buildUrl(withendpoint:FakeStoreEndPoints) throws -> URL{
+    private func buildUrl() throws -> URL{
         guard var Urlcomponents =  URLComponents(string: baseurl) else {
             throw ApiError.invalidurl
         }
-        Urlcomponents.path = withendpoint.path
+        Urlcomponents.path = endpoint.path
         guard let url = Urlcomponents.url else{
             throw ApiError.invalidurl
         }
@@ -42,6 +60,17 @@ class httdataDownloder: HttpDataDownloderprotocol {
         guard httpresponse.statusCode == 200 else {
             throw ApiError.invalidResponse
         }
+    }
+    private func savelastfetchedtime(){
+        UserDefaults.standard.set(Date(), forKey: "lastfetchedtime")
+    }
+    private  func getlastfetchedtime(){
+        self.lastfecthedtime = UserDefaults.standard.value(forKey:"lastfetchedtime" ) as? Date
+    }
+    private var needrefresh:Bool{
+        guard let lastfecthedtime else{return true}
+        return Date().timeIntervalSince(lastfecthedtime) >= refreshinterval
+        
     }
     
 }

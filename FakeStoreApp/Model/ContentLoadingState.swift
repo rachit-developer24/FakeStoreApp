@@ -6,7 +6,7 @@
 //
 
 import Foundation
-enum ContantLoadingState<T:Decodable>{
+enum ContentLoadingState<T:Decodable>{
     case isloading
     case empty
     case error(error : Error)
@@ -14,3 +14,4 @@ enum ContantLoadingState<T:Decodable>{
 }
 
 
+ 

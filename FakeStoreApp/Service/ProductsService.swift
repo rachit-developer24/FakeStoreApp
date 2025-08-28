@@ -12,33 +12,16 @@ protocol ProductsServiceProtocol {
 }
 
 class ProductsService: ProductsServiceProtocol{
-    private let cache = ProductsCache()
-    private var lastfecthedtime:Date?
-    private let refreshinterval:TimeInterval = 60 * 5
-    private var downloder = httdataDownloder()
-    init(downloder:httdataDownloder = httdataDownloder()){
+   
+    private var downloder :HttpDataDownloderProtocol
+    init(downloder:HttpDataDownloderProtocol = HTTPDataDownloder(endpoint: .products,cache:fileCacheManager(filename: "products.json"))){
         self.downloder = downloder
-    }
+       
+}
     func fetchproducts()async throws  -> [Products]{
-        if !needrefresh, let cachedData = try cache.getProducts(){
-            return cachedData
-        }
-        let products = try await downloder.fetchdata(as: Products.self, endpoint: .products)
-        savelastfetchedtime()
-        try  cache.saveProducts(products)
+        try await Task.sleep(for: .seconds(1))
+        let products = try await downloder.fetchdata(as: Products.self)
         return products
-        
-
     }
-    private func savelastfetchedtime(){
-        UserDefaults.standard.set(Data(), forKey: "lastfetchedtime")
-    }
-    private  func getlastfetchedtime(){
-        self.lastfecthedtime = UserDefaults.standard.value(forKey:"lastfetchedtime" ) as? Date
-    }
-    private var needrefresh:Bool{
-        guard let lastfecthedtime else{return true}
-        return Date().timeIntervalSince(lastfecthedtime) >= refreshinterval
-        
-    }
+ 
 }

@@ -10,7 +10,7 @@ import Observation
 @Observable
 class ProductsViewModel {
     var products: [Products] = []
-    var lodingState:ContantLoadingState<Products> = .isloading
+    var lodingState:ContentLoadingState<Products> = .isloading
     let Service : ProductsServiceProtocol
     init(Service:ProductsServiceProtocol){
         self.Service = Service
