@@ -15,7 +15,6 @@ class ProductsViewModel {
     init(Service:ProductsServiceProtocol){
         self.Service = Service
     }
-    
     func fetchProducts()async {
         do{
             self.products = try await Service.fetchproducts()

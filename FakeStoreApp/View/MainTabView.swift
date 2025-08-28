@@ -15,7 +15,7 @@ struct MainTabView: View {
                     Image(systemName: "cart")
                     Text("Products")
                 }
-            UserView()
+            UserView(Service: UserService())
                 .tabItem{
                     Image(systemName: "person")
                     Text("Users")

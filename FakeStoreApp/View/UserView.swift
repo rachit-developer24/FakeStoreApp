@@ -8,17 +8,31 @@
 import SwiftUI
 
 struct UserView: View {
-    @State var Viewmodel = UserViewModel()
+    @State var Viewmodel:UserViewModel
+    let Service:UserServiceProtocol
+    init(Service:UserServiceProtocol){
+        self.Service=Service
+        _Viewmodel = State(initialValue: UserViewModel(Service: Service))
+    }
     var body: some View {
         NavigationStack{
             VStack{
-                List{
-                    ForEach(Viewmodel.user){user in
-                        UserSubView(user: user)
+                switch Viewmodel.lodingState {
+                case .isloading:
+                    ProgressView()
+                case .empty:
+                    ContentUnavailableView("Products Unavailable", systemImage: "cart.slash")
+                case .error(let error):
+                    Text(error.localizedDescription)
+                case .completed(let Data):
+                    List{
+                        ForEach(Data){user in
+                            UserSubView(user: user)
+                        }
                     }
                 }
-                .navigationTitle(Text("Users"))
             }
+            .navigationTitle(Text("Users"))
         }
         .task {
             await Viewmodel.fetchusers()
@@ -29,5 +43,5 @@ struct UserView: View {
 }
 
 #Preview {
-    UserView()
+    UserView(Service: UserService())
 }

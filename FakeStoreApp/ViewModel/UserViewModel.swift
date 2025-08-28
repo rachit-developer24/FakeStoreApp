@@ -12,7 +12,7 @@ class UserViewModel {
     var lodingState:ContentLoadingState<User> = .isloading
     var user = [User]()
     let Service:UserServiceProtocol
-    init(Service: UserServiceProtocol = UserService()) {
+    init(Service: UserServiceProtocol) {
         self.Service = Service
     }
     func fetchusers()async {
