@@ -37,7 +37,7 @@ A SwiftUI iOS app that fetches products from [Fake Store API](https://fakestorea
 ## 📷 Screenshots
  <img width="1470" height="956" alt="Screenshot 2025-08-28 at 16 13 08" src="https://github.com/user-attachments/assets/3261fecb-5c26-45b4-9d25-10f5fcc75f90" />
 <img width="1470" height="956" alt="Screenshot 2025-08-28 at 16 15 03" src="https://github.com/user-attachments/assets/7b74dfdc-1c46-4158-8e5f-5cc0a43f88d1" />
-<img width="1470" height="956" alt="Screenshot 2025-08-28 at 16 15 03" src="https://github.com/user-attachments/assets/bef0449a-3844-4c71-9371-3659d066b87f" />
+<img width="1470" height="956" alt="Screenshot 2025-08-28 at 17 12 31" src="https://github.com/user-attachments/assets/660537ce-6f03-406b-a128-efc3eab17d20" />
 <img width="1470" height="956" alt="Screenshot 2025-08-28 at 16 30 26" src="https://github.com/user-attachments/assets/651560d3-d3e1-4e21-bf27-3a8db59774e0" />
 
 
