@@ -11,7 +11,9 @@ A SwiftUI iOS app that fetches products from [Fake Store API](https://fakestorea
 - 10-Minute Refresh Logic – reduces redundant API calls with smart caching  
 - Async/Await Networking – modern Swift concurrency for cleaner code  
 - Error Handling – robust error management using a custom `ApiError` enum  
-- Loading States – handles `.loading`, `.empty`, `.error`, `.completed`  
+- Loading States – handles `.loading`, `.empty`, `.error`, `.completed`
+-  🔎 **Search Functionality** – implemented case-insensitive search for **Products and Users** with real-time filtering and empty state handling  
+
 
 ---
 
@@ -21,23 +23,28 @@ A SwiftUI iOS app that fetches products from [Fake Store API](https://fakestorea
 - MVVM  
 - URLSession + async/await  
 - FileManager (for JSON cache)  
-- UserDefaults (for last fetch timestamp)  
+- UserDefaults (for last fetch timestamp)
+- Search filtering with `localizedCaseInsensitiveContains` for Products and Users  
+ 
 
 ---
 
-## 📂 Project Structure
+## 📂 Project Structure  
 - `ProductsService` → orchestrates API + cache logic  
 - `HTTPDataDownloader` → generic networking layer with validation and refresh handling  
 - `CacheManager` → protocol + `fileCacheManager` implementation for JSON storage  
-- `ProductsViewModel` → manages app state and data flow  
-- `ProductsView` → SwiftUI view displaying products with loading/error states  
+- `ProductsViewModel` → manages app state, data flow, and search filtering  
+- `ProductsView` → SwiftUI view displaying products with loading/error states and search bar  
+- `UsersViewModel` → manages user data flow and search filtering  
+- `UsersView` → SwiftUI view displaying users with loading/error states and search bar  
 
 ---
 
 ## 📷 Screenshots
- <img width="1470" height="956" alt="Screenshot 2025-08-28 at 16 13 08" src="https://github.com/user-attachments/assets/3261fecb-5c26-45b4-9d25-10f5fcc75f90" />
-<img width="1470" height="956" alt="Screenshot 2025-08-28 at 16 15 03" src="https://github.com/user-attachments/assets/7b74dfdc-1c46-4158-8e5f-5cc0a43f88d1" />
-<img width="1470" height="956" alt="Screenshot 2025-08-28 at 17 12 31" src="https://github.com/user-attachments/assets/660537ce-6f03-406b-a128-efc3eab17d20" />
+<img width="1470" height="956" alt="Screenshot 2025-08-30 at 15 45 02" src="https://github.com/user-attachments/assets/f26eab08-9fb4-4975-b934-56d68e7467e0" />
+<img width="1470" height="956" alt="Screenshot 2025-08-30 at 15 44 55" src="https://github.com/user-attachments/assets/d7f03ae1-77e5-43ed-98a5-907b7a0cb994" />
+<img width="1470" height="956" alt="Screenshot 2025-08-30 at 15 44 37" src="https://github.com/user-attachments/assets/9491c218-3c0e-4ae2-9f29-1261bee400e6" />
+<img width="1470" height="956" alt="Screenshot 2025-08-30 at 15 44 23" src="https://github.com/user-attachments/assets/8c5f0b5c-add1-4e89-8689-bfc8b8ee7ce7" />
 <img width="1470" height="956" alt="Screenshot 2025-08-28 at 16 30 26" src="https://github.com/user-attachments/assets/651560d3-d3e1-4e21-bf27-3a8db59774e0" />
 
 
