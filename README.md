@@ -41,10 +41,10 @@ A SwiftUI iOS app that fetches products from [Fake Store API](https://fakestorea
 ---
 
 ## 📷 Screenshots
-<img width="1470" height="956" alt="Screenshot 2025-08-30 at 15 45 02" src="https://github.com/user-attachments/assets/f26eab08-9fb4-4975-b934-56d68e7467e0" />
-<img width="1470" height="956" alt="Screenshot 2025-08-30 at 15 44 55" src="https://github.com/user-attachments/assets/d7f03ae1-77e5-43ed-98a5-907b7a0cb994" />
-<img width="1470" height="956" alt="Screenshot 2025-08-30 at 15 44 37" src="https://github.com/user-attachments/assets/9491c218-3c0e-4ae2-9f29-1261bee400e6" />
 <img width="1470" height="956" alt="Screenshot 2025-08-30 at 15 44 23" src="https://github.com/user-attachments/assets/8c5f0b5c-add1-4e89-8689-bfc8b8ee7ce7" />
+<img width="1470" height="956" alt="Screenshot 2025-08-30 at 15 44 37" src="https://github.com/user-attachments/assets/9491c218-3c0e-4ae2-9f29-1261bee400e6" />
+<img width="1470" height="956" alt="Screenshot 2025-08-30 at 15 44 55" src="https://github.com/user-attachments/assets/d7f03ae1-77e5-43ed-98a5-907b7a0cb994" />
+<img width="1470" height="956" alt="Screenshot 2025-08-30 at 15 45 02" src="https://github.com/user-attachments/assets/f26eab08-9fb4-4975-b934-56d68e7467e0" />
 <img width="1470" height="956" alt="Screenshot 2025-08-28 at 16 30 26" src="https://github.com/user-attachments/assets/651560d3-d3e1-4e21-bf27-3a8db59774e0" />
 
 
