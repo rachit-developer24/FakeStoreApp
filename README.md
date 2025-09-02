@@ -12,7 +12,8 @@ A SwiftUI iOS app that fetches products from [Fake Store API](https://fakestorea
 - Async/Await Networking – modern Swift concurrency for cleaner code  
 - Error Handling – robust error management using a custom `ApiError` enum  
 - Loading States – handles `.loading`, `.empty`, `.error`, `.completed`
--  🔎 **Search Functionality** – implemented case-insensitive search for **Products and Users** with real-time filtering and empty state handling  
+-  🔎 **Search Functionality** – implemented case-insensitive search for **Products and Users** with real-time filtering and empty state handling
+-  Pull-to-Refresh – SwiftUI .refreshable lets users pull down to fetch the latest data from the API for Products and Users.
 
 
 ---
@@ -24,7 +25,10 @@ A SwiftUI iOS app that fetches products from [Fake Store API](https://fakestorea
 - URLSession + async/await  
 - FileManager (for JSON cache)  
 - UserDefaults (for last fetch timestamp)
-- Search filtering with `localizedCaseInsensitiveContains` for Products and Users  
+- Search filtering with `localizedCaseInsensitiveContains` for Products and Users
+- SwiftUI .refreshable (pull-to-refresh UX)
+- UserDefaults per-endpoint timestamps (e.g. /products, /users) for staleness checks
+  
  
 
 ---
@@ -36,7 +40,8 @@ A SwiftUI iOS app that fetches products from [Fake Store API](https://fakestorea
 - `ProductsViewModel` → manages app state, data flow, and search filtering  
 - `ProductsView` → SwiftUI view displaying products with loading/error states and search bar  
 - `UsersViewModel` → manages user data flow and search filtering  
-- `UsersView` → SwiftUI view displaying users with loading/error states and search bar  
+- `UsersView` → SwiftUI view displaying users with loading/error states and search bar
+- Pull-to-refresh using SwiftUI .refreshable + per-endpoint timestamps in UserDefaults to gate cache (FileManager JSON) vs API (10-minute staleness) for both Products and Users.
 
 ---
 
@@ -46,6 +51,8 @@ A SwiftUI iOS app that fetches products from [Fake Store API](https://fakestorea
 <img width="1470" height="956" alt="Screenshot 2025-08-30 at 15 44 55" src="https://github.com/user-attachments/assets/d7f03ae1-77e5-43ed-98a5-907b7a0cb994" />
 <img width="1470" height="956" alt="Screenshot 2025-08-30 at 15 45 02" src="https://github.com/user-attachments/assets/f26eab08-9fb4-4975-b934-56d68e7467e0" />
 <img width="1470" height="956" alt="Screenshot 2025-08-28 at 16 30 26" src="https://github.com/user-attachments/assets/651560d3-d3e1-4e21-bf27-3a8db59774e0" />
+<img width="1470" height="956" alt="Screenshot 2025-09-03 at 00 01 12" src="https://github.com/user-attachments/assets/87a8a1dd-2165-44d6-be61-50e2d6732310" /> 
+
 
 
 
