@@ -9,6 +9,7 @@ import Foundation
 
 protocol ProductsServiceProtocol {
     func fetchproducts()async throws  -> [Products]
+    func refreshdata() async throws ->[Products]
 }
 
 class ProductsService: ProductsServiceProtocol{
@@ -23,5 +24,7 @@ class ProductsService: ProductsServiceProtocol{
         let products = try await downloder.fetchdata(as: Products.self)
         return products
     }
- 
+    func refreshdata() async throws ->[Products]{
+        return try await downloder.refreshdata(as: Products.self)
+    }
 }

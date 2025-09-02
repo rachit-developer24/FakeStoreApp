@@ -8,18 +8,23 @@
 import Foundation
 protocol HttpDataDownloderProtocol{
     func fetchdata<T:Codable>(as type: T.Type  ) async throws -> [T]
+    func refreshdata<T:Codable>(as type: T.Type  ) async throws -> [T]
 }
 class HTTPDataDownloder: HttpDataDownloderProtocol {
+    
     private let baseurl = "https://fakestoreapi.com"
    private let cache:fileCacheManager?
     private let endpoint:FakeStoreEndPoints
     private var lastfecthedtime:Date?
     private let refreshinterval:TimeInterval = 60 * 10
+    private let userdefaultkey:String
 
     init(endpoint:FakeStoreEndPoints,cache:fileCacheManager? = nil) {
         self.cache = cache
         self.endpoint = endpoint
+        self.userdefaultkey = endpoint.path
         getlastfetchedtime()
+       
     }
     
     func fetchdata<T:Codable>(as type: T.Type) async throws -> [T] where T : Decodable {
@@ -61,16 +66,25 @@ class HTTPDataDownloder: HttpDataDownloderProtocol {
             throw ApiError.invalidResponse
         }
     }
-    private func savelastfetchedtime(){
-        UserDefaults.standard.set(Date(), forKey: "lastfetchedtime")
+    private func savelastfetchedtime() {
+        let now = Date()
+        self.lastfecthedtime = now        
+        UserDefaults.standard.set(now, forKey: userdefaultkey)
     }
+
     private  func getlastfetchedtime(){
-        self.lastfecthedtime = UserDefaults.standard.value(forKey:"lastfetchedtime" ) as? Date
+        self.lastfecthedtime = UserDefaults.standard.value(forKey:userdefaultkey ) as? Date
     }
     private var needrefresh:Bool{
         guard let lastfecthedtime else{return true}
         return Date().timeIntervalSince(lastfecthedtime) >= refreshinterval
         
+    }
+    func refreshdata<T>(as type: T.Type) async throws -> [T] where T : Decodable, T : Encodable {
+        print("refreshing data")
+        lastfecthedtime = nil
+        cache?.invalidata()
+        return try await fetchdata(as: type)
     }
     
 }

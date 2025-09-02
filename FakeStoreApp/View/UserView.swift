@@ -9,10 +9,8 @@ import SwiftUI
 
 struct UserView: View {
     @State var Viewmodel:UserViewModel
-    let Service:UserServiceProtocol
     @State var searchText: String = ""
-    init(Service:UserServiceProtocol){
-        self.Service=Service
+    init(Service:UserServiceProtocol = UserService()){
         _Viewmodel = State(initialValue: UserViewModel(Service: Service))
     }
     var body: some View {
@@ -35,6 +33,9 @@ struct UserView: View {
             }
             .searchable(text: $searchText, prompt: "search for Users")
             .navigationTitle(Text("Users"))
+            .refreshable {
+                await Viewmodel.refreshUser()
+            }
         }
         .task {
             await Viewmodel.fetchusers()
@@ -57,5 +58,5 @@ private extension UserView {
 }
 
 #Preview {
-    UserView(Service: UserService())
+    UserView()
 }

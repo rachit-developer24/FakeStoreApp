@@ -8,15 +8,13 @@
 import SwiftUI
 
 struct ProductsView: View {
-    let service:ProductsServiceProtocol
     @State var ViewModel:ProductsViewModel
     @State var searchText: String = ""
-    init(service:ProductsServiceProtocol){
-        self.service = service
+    init(service:ProductsServiceProtocol = ProductsService()){
         _ViewModel = State(initialValue: ProductsViewModel(Service: service))
     }
     var body: some View {
-            Group{
+        VStack{
                 switch ViewModel.lodingState {
                 case .isloading:
                     ProgressView()
@@ -42,6 +40,9 @@ struct ProductsView: View {
                     
                 }
             }
+        .refreshable {
+            await ViewModel.refreshProducts()
+        }
             .task {
                 await ViewModel.fetchProducts()
             }
@@ -62,5 +63,5 @@ private extension ProductsView {
 
 
 #Preview {
-    ProductsView(service: ProductsService())
+    ProductsView()
 }

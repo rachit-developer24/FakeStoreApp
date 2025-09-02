@@ -10,12 +10,12 @@ import SwiftUI
 struct MainTabView: View {
     var body: some View {
         TabView{
-            ProductsView(service: ProductsService())
+            ProductsView()
                 .tabItem{
                     Image(systemName: "cart")
                     Text("Products")
                 }
-            UserView(Service: UserService())
+            UserView()
                 .tabItem{
                     Image(systemName: "person")
                     Text("Users")

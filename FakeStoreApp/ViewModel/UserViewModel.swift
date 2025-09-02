@@ -17,13 +17,19 @@ class UserViewModel {
     }
     func fetchusers()async {
         do{
-            self.user = try await Service.fetchusers()
+            self.user = try await Service.fetchUsers()
             self.lodingState = user.isEmpty ? .empty : .completed(Data:user )
         }catch{
             self.lodingState = .error(error: error)
         }
-        
         }
-
+    func refreshUser()async{
+        do{
+            let users = try await Service.refreshUsers()
+            self.lodingState = users.isEmpty ? .empty : .completed(Data:users )
+        }catch{
+            self.lodingState = .error(error: error)
+        }
+    }
     
 }

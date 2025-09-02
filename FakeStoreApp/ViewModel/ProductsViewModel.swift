@@ -24,7 +24,14 @@ class ProductsViewModel {
         }
         
         }
-      
+    func refreshProducts()async{
+        do{
+            let products = try await Service.refreshdata()
+            self.lodingState = products.isEmpty ? .empty : .completed(Data: products)   
+        }catch{
+            self.lodingState = .error(error: error)
+        }
+    }
         
     }
     
